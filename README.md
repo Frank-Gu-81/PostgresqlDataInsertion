@@ -1,5 +1,5 @@
 ## Postgresql Database Config
-Please config your database with the following column attributes:
+Please config your database with the following column attributes or simply use the /noticeDB.sql to create your database:
 ```
 permalinkName,
 id,

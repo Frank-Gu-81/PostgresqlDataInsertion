@@ -4,8 +4,8 @@ const { Client } = require('pg');
 const client = new Client({
   host: 'localhost',
   user: 'postgres',
-  password: 'password', // Replace with your password
-  database: 'companies', // Replace with your database name
+  password: '20020224', // Replace with your password
+  database: 'scrape_data', // Replace with your database name
   port: 5432,
 });
 
@@ -34,49 +34,49 @@ const insertData = async (data) => {
         await client.query('BEGIN');
 
         for (const item of data) {
-        for (const edge of item.data.companiesList.edges) {
-            const node = edge.node; 
-            const queryText = 'INSERT INTO public.companies("permalinkName", id, name, "cloudinaryPublicId", "logoNeedsBorder", stage, "exitedOn", "hasOpenBid", "hasOpenOffer", "institutionalVwap", "recentInstitutionalFilingDate", "totalHoldings", "lastRoundPrice", "lastRoundPriceCalculated", "lastRoundName", "lastRoundDate", valuation, "lastRoundValuation", "priceStrength", "delayedPriceStrength", "outstandingShares", "waterfallAnalysisAvailable", "hasNoticePrices", "latestBestBidSnapshot", "latestBestOfferSnapshot", "delayedNoticePrice", "recentNoticePrices", __typename) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)';
-            const values = [
-            node.permalinkName,
-            node.id,
-            node.name,
-            node.cloudinaryPublicId,
-            node.logoNeedsBorder,
-            node.stage,
-            node.exitedOn,
-            node.hasOpenBid,
-            node.hasOpenOffer,
-            node.institutionalVwap,
-            node.recentInstitutionalFilingDate,
-            node.totalHoldings,
-            node.lastRoundPrice,
-            node.lastRoundPriceCalculated,
-            node.lastRoundName,
-            node.lastRoundDate,
-            node.valuation,
-            node.lastRoundValuation,
-            node.priceStrength,
-            node.delayedPriceStrength,
-            node.outstandingShares,
-            node.waterfallAnalysisAvailable,
-            node.hasNoticePrices,
-            node.latestBestBidSnapshot,
-            node.latestBestOfferSnapshot,
-            node.delayedNoticePrice,
-            node.recentNoticePrices,
-            node.__typename
-            ];
-            await client.query(queryText, values);
+          for (const edge of item.data.companiesList.edges) {
+              const node = edge.node; 
+              const queryText = 'INSERT INTO public.companies("permalinkName", id, name, "cloudinaryPublicId", "logoNeedsBorder", stage, "exitedOn", "hasOpenBid", "hasOpenOffer", "institutionalVwap", "recentInstitutionalFilingDate", "totalHoldings", "lastRoundPrice", "lastRoundPriceCalculated", "lastRoundName", "lastRoundDate", valuation, "lastRoundValuation", "priceStrength", "delayedPriceStrength", "outstandingShares", "waterfallAnalysisAvailable", "hasNoticePrices", "latestBestBidSnapshot", "latestBestOfferSnapshot", "delayedNoticePrice", "recentNoticePrices", __typename) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)';
+              const values = [
+              node.permalinkName,
+              node.id,
+              node.name,
+              node.cloudinaryPublicId,
+              node.logoNeedsBorder,
+              node.stage,
+              node.exitedOn,
+              node.hasOpenBid,
+              node.hasOpenOffer,
+              node.institutionalVwap,
+              node.recentInstitutionalFilingDate,
+              node.totalHoldings,
+              node.lastRoundPrice,
+              node.lastRoundPriceCalculated,
+              node.lastRoundName,
+              node.lastRoundDate,
+              node.valuation,
+              node.lastRoundValuation,
+              node.priceStrength,
+              node.delayedPriceStrength,
+              node.outstandingShares,
+              node.waterfallAnalysisAvailable,
+              node.hasNoticePrices,
+              node.latestBestBidSnapshot,
+              node.latestBestOfferSnapshot,
+              node.delayedNoticePrice,
+              node.recentNoticePrices,
+              node.__typename
+              ];
+              await client.query(queryText, values);
+          }
         }
+        await client.query('COMMIT');
+      } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+      } finally {
+        await client.end();
       }
-      await client.query('COMMIT');
-    } catch (error) {
-      await client.query('ROLLBACK');
-      throw error;
-    } finally {
-      await client.end();
-    }
 };
 
 const main = async () => {
